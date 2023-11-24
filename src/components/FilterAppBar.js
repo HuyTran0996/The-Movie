@@ -83,7 +83,8 @@ const genres = [
 
 function generateYears() {
   let years = [];
-  for (let i = 1919; i <= 2023; i++) {
+
+  for (let i = 2023; i >= 1919; i--) {
     years.push(i);
   }
   return years;
@@ -91,8 +92,8 @@ function generateYears() {
 
 function FilterAppBar() {
   const navigate = useNavigate();
-  const { state, dispatch, getData } = useContext(PageContext);
-  const { search } = state;
+  const { dispatch } = useContext(PageContext);
+
   const years = generateYears();
 
   const handleSubmit = (e) => {

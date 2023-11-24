@@ -1,3 +1,4 @@
+import React, { useContext } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Button, Container } from "@mui/material";
 
@@ -9,6 +10,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import SearchPage from "./pages/SearchPage";
 import DetailPage from "./pages/DetailPage";
 import FilterAppBar from "./components/FilterAppBar";
+import PageContext from "./context/PageContext";
 
 const cardStyle = {
   display: "flex",
@@ -17,11 +19,13 @@ const cardStyle = {
   backgroundColor: "blue",
 };
 function App() {
+  const { state } = useContext(PageContext);
+  const { filterAppBarOpen } = state;
   return (
     <div className="App">
       <SearchAppBar />
       <Container maxWidth={false} style={cardStyle}>
-        <FilterAppBar />
+        {filterAppBarOpen ? <FilterAppBar /> : null}
         <Routes>
           <Route>
             <Route path="/" element={<HomePage />} />

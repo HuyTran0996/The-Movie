@@ -88,12 +88,11 @@ function FilterPage() {
     getData();
     return <div>Loading...</div>;
   } else {
-    // getData();
     return (
       <Container>
         <Container style={cardStyle}>
           <Typography variant="h5" component="div">
-            Result of: {123}
+            Filter Result
           </Typography>
 
           <Grid style={gridStyle}>

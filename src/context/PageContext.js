@@ -25,8 +25,9 @@ const initialState = {
   genre: null,
   year: null,
   sort: null,
-
   search: localStorage.getItem("search"),
+  /////////////
+  filterAppBarOpen: false,
 };
 
 function reducer(state, action) {
@@ -62,6 +63,9 @@ function reducer(state, action) {
       return { ...state, year: action.payload };
     case "SET_SORT":
       return { ...state, sort: action.payload };
+    /////////////////////////////
+    case "SET_FILTER_APP_BAR":
+      return { ...state, filterAppBarOpen: action.payload };
 
     default:
       throw new Error("Invalid Action");
@@ -86,6 +90,7 @@ function PageProvider({ children }) {
     genre,
     year,
     sort,
+    filterAppBarOpen,
   } = state;
   const currentUrl = typeof window !== "undefined" ? window.location.href : "";
   console.log("current Url:", currentUrl);

@@ -1,10 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
+
 import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
@@ -16,6 +16,8 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import HomeIcon from "@mui/icons-material/Home";
+import ClearIcon from "@mui/icons-material/Clear";
+import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 import PageContext from "../context/PageContext";
@@ -76,7 +78,7 @@ export default function PrimarySearchAppBar() {
   const navigate = useNavigate();
 
   const { state, dispatch } = useContext(PageContext);
-  const { search } = state;
+  const { search, filterAppBarOpen } = state;
 
   const handleInputChange = (e) => {
     dispatch({ type: "SET_SEARCH", payload: e.target.value });
@@ -89,6 +91,17 @@ export default function PrimarySearchAppBar() {
     dispatch({ type: "SET_DATA_SEARCH", payload: null });
   };
 
+  const handleClick = () => {
+    navigate(`/`);
+  };
+  const handleRemoveInputValue = () => {
+    localStorage.removeItem("search");
+    dispatch({ type: "SET_SEARCH", payload: "" });
+  };
+  const handleFilterAppBarOpen = () => {
+    dispatch({ type: "SET_FILTER_APP_BAR", payload: !filterAppBarOpen });
+  };
+  //////////////////////////////////////////////////////////
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
@@ -175,9 +188,12 @@ export default function PrimarySearchAppBar() {
       </MenuItem>
     </Menu>
   );
+  ////////////////////////////////////////////
 
-  const handleClick = () => {
-    navigate(`/`);
+  const searchStyle = {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
   };
 
   return (
@@ -190,21 +206,23 @@ export default function PrimarySearchAppBar() {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
+            onClick={handleFilterAppBarOpen}
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
+
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
             onClick={handleClick}
           >
             <HomeIcon />
-          </Typography>
+          </IconButton>
 
           <form onSubmit={handleSubmit}>
-            <Search>
+            <Search style={searchStyle}>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
@@ -214,6 +232,9 @@ export default function PrimarySearchAppBar() {
                 value={search}
                 onChange={handleInputChange}
               />
+              <Button onClick={handleRemoveInputValue}>
+                <ClearIcon />
+              </Button>
             </Search>
           </form>
 
