@@ -27,7 +27,7 @@ const cardStyle = {
   // justifyContent: "center",
   alignItems: "center",
   backgroundColor: "#1565c0",
-  width: "80vw",
+  width: "70vw",
   marginTop: "6px",
 };
 const gridStyle = {

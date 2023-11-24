@@ -15,8 +15,6 @@ import PageContext from "./context/PageContext";
 const cardStyle = {
   display: "flex",
   justifyContent: "space-between",
-  width: "100vw",
-  backgroundColor: "blue",
 };
 function App() {
   const { state } = useContext(PageContext);
@@ -31,7 +29,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/filter" element={<FilterPage />} />
             <Route path="/search" element={<SearchPage />} />
-            <Route path="/job/:id" element={<DetailPage />} />
+            <Route path="/detail/:id" element={<DetailPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

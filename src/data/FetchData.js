@@ -66,10 +66,22 @@ const FetchFilter = async (genre, year, sort, pageDataFilter) => {
   }
 };
 
+const FetchDetail = async (movieId) => {
+  try {
+    const data = await axios.get(`${BASE_URL}/movie/${movieId}?${API_KEY}`);
+    let dataNeeded = data.data;
+    console.log("dataNeeded FetchDetail", dataNeeded);
+    return dataNeeded;
+  } catch (err) {
+    console.log(`Error FetchDetail: ${err.name}: ${err.message}`);
+  }
+};
+
 export {
   FetchPopularMovie,
   FetchUpComing,
   FetchTopRated,
   FetchSearch,
   FetchFilter,
+  FetchDetail,
 };

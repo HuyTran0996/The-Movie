@@ -14,13 +14,11 @@ import PageContext from "../context/PageContext";
 
 const cardStyle = {
   display: "flex",
-  flexDirection: "column",
   flexWrap: "wrap",
   justifyContent: "space-between",
   alignItems: "center",
   width: "100vw",
   margin: "6px",
-  backgroundColor: "transparent",
 };
 const cardActionStyle = {
   // display: "flex",
@@ -30,12 +28,11 @@ const cardActionStyle = {
 const imgStyle = {
   // objectFit: "contain",
   maxWidth: "60vw",
-  maxHeight: "50vh",
 };
 
 const contentStyle = {
   overflow: "auto",
-  maxWidth: "60vw",
+  maxWidth: "30vw",
 };
 
 export default function DetailPage() {
@@ -53,7 +50,7 @@ export default function DetailPage() {
     return <div>Loading...</div>;
   } else {
     return (
-      <Card variant="standard" style={cardStyle}>
+      <Card style={cardStyle}>
         <CardMedia
           style={imgStyle}
           component="img"

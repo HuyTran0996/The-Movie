@@ -1,31 +1,58 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { red } from "@mui/material/colors";
+import { useNavigate } from "react-router-dom";
 
 import { IMAGE_PATH } from "../app/config";
+import PageContext from "../context/PageContext";
 
 const cardStyle = {
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-  width: "150px",
-  height: "350px",
+  width: "165px",
+  height: "450px",
   margin: "6px",
+};
+const cardActionStyle = {
+  display: "flex",
+  justifyContent: "space-between",
 };
 
 const imgStyle = {
-  width: 150,
-  height: 210,
+  objectFit: "contain",
+};
+
+const contentStyle = {
+  overflow: "auto",
+  maxHeight: "150px",
 };
 
 export default function MovieCard({ movie }) {
   // console.log("path", IMAGE_PATH);
   //tại sao IMAGE_PATH là undefined????
+  const { state, getData, dispatch } = useContext(PageContext);
+  const { dataDetail, movieId } = state;
+  const navigate = useNavigate();
+
+  const handleSeeDetail = () => {
+    dispatch({
+      type: "SET_MOVIE_ID",
+      payload: movie.id,
+    });
+    dispatch({
+      type: "SET_DATA_DETAIL",
+      payload: null,
+    });
+    navigate(`/detail/${movie.id}`);
+  };
   return (
     <Card style={cardStyle}>
       <CardMedia
@@ -35,7 +62,7 @@ export default function MovieCard({ movie }) {
         image={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
       />
 
-      <CardContent>
+      <CardContent style={contentStyle}>
         <Typography gutterBottom variant="h7" component="div">
           {movie.title}
         </Typography>
@@ -52,10 +79,29 @@ export default function MovieCard({ movie }) {
         </Typography>
       </CardContent>
 
-      {/* <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
-      </CardActions> */}
+      <CardActions style={cardActionStyle}>
+        <Button
+          sx={{
+            "&:hover": {
+              backgroundColor: red[100],
+              transition: "0.3s",
+            },
+          }}
+          onClick={handleSeeDetail}
+        >
+          Detail
+        </Button>
+        <Button
+          sx={{
+            "&:hover": {
+              backgroundColor: red[100],
+              transition: "0.3s",
+            },
+          }}
+        >
+          <ShoppingCartIcon />
+        </Button>
+      </CardActions>
     </Card>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import PageContext from "../context/PageContext";
+import "../App.css";
 
 const genres = [
   {
@@ -108,46 +109,52 @@ function FilterAppBar() {
     navigate(`/filter?genre=${genre}&year=${year}&sort=${sort}`);
   };
   return (
-    <div>
-      <div>FilterAppBar</div>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="genre">Movie Genre:</label>
-        <select id="genre" name="genre">
-          {genres.map((type) => {
-            return (
-              <option key={type.id} value={type.id}>
-                {type.name}
+    <div className="FilterAppBar">
+      <div>Filter App Bar</div>
+      <form className="form" onSubmit={handleSubmit}>
+        <div className="genre">
+          <label htmlFor="genre">Movie Genre:</label>
+          <select id="genre" name="genre">
+            {genres.map((type) => {
+              return (
+                <option key={type.id} value={type.id}>
+                  {type.name}
+                </option>
+              );
+            })}
+          </select>
+        </div>
+
+        <div className="year">
+          <label htmlFor="year">Release Year:</label>
+          <select id="year" name="year">
+            {years.map((year) => (
+              <option key={year} value={year}>
+                {year}
               </option>
-            );
-          })}
-        </select>
-        <br />
-        <label htmlFor="year">Release Year:</label>
-        <select id="year" name="year">
-          {years.map((year) => (
-            <option key={year} value={year}>
-              {year}
+            ))}
+          </select>
+        </div>
+
+        <div className="sort">
+          <label htmlFor="sort">Sort By:</label>
+          <select id="sort" name="sort">
+            <option value="popularity.asc">popularity.asc</option>
+            <option value="popularity.desc">popularity.desc</option>
+            <option value="revenue.asc">revenue.asc</option>
+            <option value="revenue.desc">revenue.desc</option>
+            <option value="primary_release_date.asc">
+              primary_release_date.asc
             </option>
-          ))}
-        </select>
-        <br />
-        <label htmlFor="sort">Sort By:</label>
-        <select id="sort" name="sort">
-          <option value="popularity.asc">popularity.asc</option>
-          <option value="popularity.desc">popularity.desc</option>
-          <option value="revenue.asc">revenue.asc</option>
-          <option value="revenue.desc">revenue.desc</option>
-          <option value="primary_release_date.asc">
-            primary_release_date.asc
-          </option>
-          <option value="primary_release_date.desc">
-            primary_release_date.desc
-          </option>
-          <option value="vote_average.asc">vote_average.asc</option>
-          <option value="vote_average.desc">vote_average.desc</option>
-          <option value="vote_count.asc">vote_count.asc</option>
-          <option value="vote_count.desc">vote_count.desc</option>
-        </select>
+            <option value="primary_release_date.desc">
+              primary_release_date.desc
+            </option>
+            <option value="vote_average.asc">vote_average.asc</option>
+            <option value="vote_average.desc">vote_average.desc</option>
+            <option value="vote_count.asc">vote_count.asc</option>
+            <option value="vote_count.desc">vote_count.desc</option>
+          </select>
+        </div>
 
         <button type="submit">Submit</button>
       </form>

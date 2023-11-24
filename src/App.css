@@ -1,4 +1,71 @@
-body{
-    margin: 0;
-    background: rgb(55, 40, 152) ;
+body {
+  margin: 0;
+  box-sizing: border-box;
+  background: linear-gradient(90deg, rgb(0, 247, 255), rgb(38, 200, 56));
+}
+
+.FilterAppBar {
+  width: 30vw;
+  position: relative;
+  background: linear-gradient(120deg, rgb(90, 197, 201), rgb(38, 200, 56));
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.FilterAppBar div {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.FilterAppBar .form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.FilterAppBar .form div {
+  margin-bottom: 10px;
+}
+
+.FilterAppBar .form label {
+  margin-bottom: 5px;
+}
+
+.FilterAppBar .form select {
+  max-width: 30vw;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.FilterAppBar .form select:hover {
+  background-color: #656fcd;
+}
+
+.FilterAppBar .form button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.FilterAppBar .form button:hover {
+  background-color: #0056b3;
+}
+
+@media only screen and (max-width: 600px) {
+  .FilterAppBar {
+    width: 30vw;
+    position: fixed;
+    padding: 5px;
+    border-radius: 5px;
+  }
 }
