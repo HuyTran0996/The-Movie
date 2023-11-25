@@ -6,6 +6,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
+import { red } from "@mui/material/colors";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import MovieCard from "../components/MovieCard";
@@ -15,8 +16,7 @@ import PageContext from "../context/PageContext";
 
 const stackStyle = {
   marginTop: "5px",
-
-  backgroundColor: "blue",
+  // backgroundColor: "blue",
   display: "flex",
   alignItems: "center",
 };
@@ -36,6 +36,10 @@ const gridStyle = {
   justifyContent: "space-evenly",
   // alignItems: "center",
   marginTop: "6px",
+};
+
+const apiStyle = {
+  cursor: "pointer",
 };
 ///////////////////
 
@@ -133,6 +137,7 @@ function HomePage() {
     });
   };
   /////////////////////////////////////////////
+
   if (!dataPopularMovie) {
     <div>Loading...</div>;
     getData();
@@ -164,14 +169,32 @@ function HomePage() {
           </Grid>
 
           <Grid style={stackStyle}>
-            <SkipPreviousIcon onClick={handlePrevDataPopularMovie} />
+            <SkipPreviousIcon
+              style={apiStyle}
+              onClick={handlePrevDataPopularMovie}
+              sx={{
+                "&:hover": {
+                  backgroundColor: red[100],
+                  transition: "0.3s",
+                },
+              }}
+            />
             <Pagination
               count={Math.ceil(dataPopularMovie.length / 5)}
               color="primary"
               onChange={handleChangePopularMovie}
               page={pagePopular}
             />
-            <SkipNextIcon onClick={handleNextDataPopularMovie} />
+            <SkipNextIcon
+              style={apiStyle}
+              onClick={handleNextDataPopularMovie}
+              sx={{
+                "&:hover": {
+                  backgroundColor: red[100],
+                  transition: "0.3s",
+                },
+              }}
+            />
           </Grid>
         </Container>
 
@@ -194,14 +217,32 @@ function HomePage() {
           </Grid>
 
           <Grid style={stackStyle}>
-            <SkipPreviousIcon onClick={handlePrevDataUpComing} />
+            <SkipPreviousIcon
+              style={apiStyle}
+              onClick={handlePrevDataUpComing}
+              sx={{
+                "&:hover": {
+                  backgroundColor: red[100],
+                  transition: "0.3s",
+                },
+              }}
+            />
             <Pagination
               count={Math.ceil(dataUpComing.length / 5)}
               color="primary"
               onChange={handleChangeUpComing}
               page={pageUpComing}
             />
-            <SkipNextIcon onClick={handleNextDataUpComing} />
+            <SkipNextIcon
+              style={apiStyle}
+              onClick={handleNextDataUpComing}
+              sx={{
+                "&:hover": {
+                  backgroundColor: red[100],
+                  transition: "0.3s",
+                },
+              }}
+            />
           </Grid>
         </Container>
 
@@ -224,7 +265,16 @@ function HomePage() {
           </Grid>
 
           <Grid style={stackStyle}>
-            <SkipPreviousIcon onClick={handlePrevDataTopRated} />
+            <SkipPreviousIcon
+              style={apiStyle}
+              onClick={handlePrevDataTopRated}
+              sx={{
+                "&:hover": {
+                  backgroundColor: red[100],
+                  transition: "0.3s",
+                },
+              }}
+            />
 
             <Pagination
               count={Math.ceil(dataTopRated.length / 5)}
@@ -233,7 +283,16 @@ function HomePage() {
               page={pageTopRated}
             />
 
-            <SkipNextIcon onClick={handleNextDataTopRated} />
+            <SkipNextIcon
+              style={apiStyle}
+              onClick={handleNextDataTopRated}
+              sx={{
+                "&:hover": {
+                  backgroundColor: red[100],
+                  transition: "0.3s",
+                },
+              }}
+            />
           </Grid>
         </Container>
       </Container>

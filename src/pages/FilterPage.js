@@ -6,6 +6,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
+import { red } from "@mui/material/colors";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import MovieCard from "../components/MovieCard";
@@ -15,8 +16,7 @@ import PageContext from "../context/PageContext";
 
 const stackStyle = {
   marginTop: "5px",
-
-  backgroundColor: "blue",
+  // backgroundColor: "blue",
   display: "flex",
   alignItems: "center",
 };
@@ -36,6 +36,9 @@ const gridStyle = {
   justifyContent: "space-evenly",
   // alignItems: "center",
   marginTop: "6px",
+};
+const apiStyle = {
+  cursor: "pointer",
 };
 ///////////////////
 
@@ -108,14 +111,32 @@ function FilterPage() {
           </Grid>
 
           <Grid style={stackStyle}>
-            <SkipPreviousIcon onClick={handlePrevDataSearch} />
+            <SkipPreviousIcon
+              style={apiStyle}
+              onClick={handlePrevDataSearch}
+              sx={{
+                "&:hover": {
+                  backgroundColor: red[100],
+                  transition: "0.3s",
+                },
+              }}
+            />
             <Pagination
               count={Math.ceil(dataFilter.length / 5)}
               color="primary"
               onChange={handleChangeSearch}
               page={pageSearch}
             />
-            <SkipNextIcon onClick={handleNextDataSearch} />
+            <SkipNextIcon
+              style={apiStyle}
+              onClick={handleNextDataSearch}
+              sx={{
+                "&:hover": {
+                  backgroundColor: red[100],
+                  transition: "0.3s",
+                },
+              }}
+            />
           </Grid>
         </Container>
       </Container>
