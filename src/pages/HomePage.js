@@ -26,7 +26,7 @@ const cardStyle = {
   flexDirection: "column",
   // justifyContent: "center",
   alignItems: "center",
-  backgroundColor: "#1565c0",
+  // backgroundColor: "#1565c0",
   width: "70vw",
   marginTop: "6px",
 };
