@@ -44,6 +44,7 @@ export default function MovieCard({ movie }) {
   const navigate = useNavigate();
 
   const handleSeeDetail = () => {
+    localStorage.setItem("movieId", movie.id);
     dispatch({
       type: "SET_MOVIE_ID",
       payload: movie.id,

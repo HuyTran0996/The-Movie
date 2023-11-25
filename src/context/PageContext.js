@@ -30,7 +30,7 @@ const initialState = {
   search: localStorage.getItem("search"),
   /////////////
   filterAppBarOpen: false,
-  movieId: null,
+  movieId: localStorage.getItem("movieId"),
 };
 
 function reducer(state, action) {
