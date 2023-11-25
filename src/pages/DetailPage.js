@@ -39,8 +39,6 @@ const contentStyle = {
 };
 
 export default function DetailPage() {
-  // console.log("path", IMAGE_PATH);
-  //tại sao IMAGE_PATH là undefined????
   const params = useParams();
   const Id = params.id;
   console.log("movie id:", Id);
@@ -58,7 +56,7 @@ export default function DetailPage() {
           style={imgStyle}
           component="img"
           alt="poster"
-          image={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+          image={`${IMAGE_PATH}${movie.backdrop_path}`}
         />
 
         <CardContent style={contentStyle}>

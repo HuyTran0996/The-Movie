@@ -138,15 +138,8 @@ function HomePage() {
   };
   /////////////////////////////////////////////
 
-  if (!dataPopularMovie) {
-    <div>Loading...</div>;
-    getData();
-  } else if (!dataUpComing) {
-    <div>Loading...</div>;
-    getData();
-  } else if (!dataTopRated) {
-    <div>Loading...</div>;
-    getData();
+  if (!dataPopularMovie || !dataUpComing || !dataTopRated) {
+    return <div>Loading...</div>;
   } else {
     return (
       <Container>

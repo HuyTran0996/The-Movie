@@ -103,24 +103,33 @@ function PageProvider({ children }) {
   } = state;
   const currentUrl = typeof window !== "undefined" ? window.location.href : "";
   console.log("current Url:", currentUrl);
-  console.log("page top rated", pageDataTopRated);
+
   const getData = async () => {
     try {
       if (currentUrl.includes("search")) {
         const result = await FetchSearch(search, pageDataSearch);
         dispatch({ type: "SET_DATA_SEARCH", payload: result });
+        console.log("dataNeeded FetchSearch", result);
+        //////////////
       } else if (currentUrl.includes("filter")) {
         const result = await FetchFilter(genre, year, sort, pageDataFilter);
         dispatch({ type: "SET_DATA_FILTER", payload: result });
+        console.log("dataNeeded FetchFilter", result);
+        ////////////////
       } else if (currentUrl.includes("detail")) {
         const result = await FetchDetail(movieId);
         dispatch({ type: "SET_DATA_DETAIL", payload: result });
+        console.log("dataNeeded FetchDetail", result);
+        //////////
       } else {
         const resultPopularMovie = await FetchPopularMovie(
           pageDataPopularMovie
         );
         const resultUpComing = await FetchUpComing(pageDataUpComing);
         const resultTopRated = await FetchTopRated(pageDataTopRated);
+        console.log("dataNeeded FetchPopularMovie", resultPopularMovie);
+        console.log("dataNeeded FetchUpComing", resultUpComing);
+        console.log("dataNeeded FetchTopRated", resultTopRated);
         dispatch({
           type: "SET_DATA_PopularMovie",
           payload: resultPopularMovie,
@@ -140,9 +149,6 @@ function PageProvider({ children }) {
     }
   };
 
-  useEffect(() => {
-    getData();
-  }, []);
   useEffect(() => {
     getData();
   }, [

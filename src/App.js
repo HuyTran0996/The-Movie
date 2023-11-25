@@ -19,6 +19,7 @@ const cardStyle = {
 function App() {
   const { state } = useContext(PageContext);
   const { filterAppBarOpen } = state;
+
   return (
     <div className="App">
       <SearchAppBar />

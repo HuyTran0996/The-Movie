@@ -37,8 +37,6 @@ const contentStyle = {
 };
 ////////////////////////////
 export default function MovieCard({ movie }) {
-  // console.log("path", IMAGE_PATH);
-  //tại sao IMAGE_PATH là undefined????
   const { state, getData, dispatch } = useContext(PageContext);
   const { dataDetail, movieId } = state;
   const navigate = useNavigate();
@@ -61,7 +59,7 @@ export default function MovieCard({ movie }) {
         style={imgStyle}
         component="img"
         alt="poster"
-        image={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+        image={`${IMAGE_PATH}${movie.poster_path}`}
       />
 
       <CardContent style={contentStyle}>

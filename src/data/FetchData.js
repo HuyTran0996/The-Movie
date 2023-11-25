@@ -1,13 +1,13 @@
-import { BASE_URL, API_KEY } from "../app/config";
-import axios from "axios";
+import { API_KEY } from "../app/config";
+import apiService from "../app/apiService";
+
 const FetchPopularMovie = async (pageDataPopularMovie) => {
   try {
-    const data = await axios.get(
-      `${BASE_URL}/movie/popular?${API_KEY}&language=en-US&page=${pageDataPopularMovie}`
+    const data = await apiService.get(
+      `/movie/popular?${API_KEY}&language=en-US&page=${pageDataPopularMovie}`
     );
 
     let dataNeeded = data.data.results;
-    console.log("dataNeeded FetchPopularMovie", dataNeeded);
     return dataNeeded;
   } catch (err) {
     console.log(`Error FetchPopularMovie: ${err.name}: ${err.message}`);
@@ -15,12 +15,11 @@ const FetchPopularMovie = async (pageDataPopularMovie) => {
 };
 const FetchUpComing = async (pageDataUpComing) => {
   try {
-    const data = await axios.get(
-      `${BASE_URL}/movie/upcoming?${API_KEY}&language=en-US&page=${pageDataUpComing}`
+    const data = await apiService.get(
+      `/movie/upcoming?${API_KEY}&language=en-US&page=${pageDataUpComing}`
     );
 
     let dataNeeded = data.data.results;
-    console.log("dataNeeded FetchUpComing", dataNeeded);
     return dataNeeded;
   } catch (err) {
     console.log(`Error FetchUpComing: ${err.name}: ${err.message}`);
@@ -29,12 +28,11 @@ const FetchUpComing = async (pageDataUpComing) => {
 
 const FetchTopRated = async (pageDataTopRated) => {
   try {
-    const data = await axios.get(
-      `${BASE_URL}/movie/top_rated?${API_KEY}&language=en-US&page=${pageDataTopRated}`
+    const data = await apiService.get(
+      `/movie/top_rated?${API_KEY}&language=en-US&page=${pageDataTopRated}`
     );
 
     let dataNeeded = data.data.results;
-    console.log("dataNeeded FetchTopRated", dataNeeded);
     return dataNeeded;
   } catch (err) {
     console.log(`Error FetchTopRated: ${err.name}: ${err.message}`);
@@ -43,11 +41,11 @@ const FetchTopRated = async (pageDataTopRated) => {
 
 const FetchSearch = async (search, pageDataSearch) => {
   try {
-    const data = await axios.get(
-      `${BASE_URL}/search/movie?${API_KEY}&page=${pageDataSearch}&query=${search}`
+    const data = await apiService.get(
+      `/search/movie?${API_KEY}&page=${pageDataSearch}&query=${search}`
     );
+
     let dataNeeded = data.data.results;
-    console.log("dataNeeded FetchSearch", dataNeeded);
     return dataNeeded;
   } catch (err) {
     console.log(`Error FetchSearch: ${err.name}: ${err.message}`);
@@ -55,11 +53,10 @@ const FetchSearch = async (search, pageDataSearch) => {
 };
 const FetchFilter = async (genre, year, sort, pageDataFilter) => {
   try {
-    const data = await axios.get(
-      `${BASE_URL}/discover/movie?${API_KEY}&language=en-US&page=${pageDataFilter}&primary_release_year=${year}&sort_by=${sort}&with_genres=${genre}`
+    const data = await apiService.get(
+      `/discover/movie?${API_KEY}&language=en-US&page=${pageDataFilter}&primary_release_year=${year}&sort_by=${sort}&with_genres=${genre}`
     );
     let dataNeeded = data.data.results;
-    console.log("dataNeeded FetchFilter", dataNeeded);
     return dataNeeded;
   } catch (err) {
     console.log(`Error FetchFilter: ${err.name}: ${err.message}`);
@@ -68,9 +65,8 @@ const FetchFilter = async (genre, year, sort, pageDataFilter) => {
 
 const FetchDetail = async (movieId) => {
   try {
-    const data = await axios.get(`${BASE_URL}/movie/${movieId}?${API_KEY}`);
+    const data = await apiService.get(`/movie/${movieId}?${API_KEY}`);
     let dataNeeded = data.data;
-    console.log("dataNeeded FetchDetail", dataNeeded);
     return dataNeeded;
   } catch (err) {
     console.log(`Error FetchDetail: ${err.name}: ${err.message}`);
