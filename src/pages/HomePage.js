@@ -11,6 +11,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import MovieCard from "../components/MovieCard";
 import PageContext from "../context/PageContext";
+import Loading from "../components/Loading";
 
 ///////////STYLES//////////////
 
@@ -139,7 +140,8 @@ function HomePage() {
   /////////////////////////////////////////////
 
   if (!dataPopularMovie || !dataUpComing || !dataTopRated) {
-    return <div>Loading...</div>;
+    getData();
+    return <Container style={cardStyle}>{Loading()}</Container>;
   } else {
     return (
       <Container>

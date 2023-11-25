@@ -78,7 +78,7 @@ export default function PrimarySearchAppBar() {
 
   const navigate = useNavigate();
 
-  const { state, dispatch } = useContext(PageContext);
+  const { state, dispatch, getData } = useContext(PageContext);
   const { search, filterAppBarOpen } = state;
 
   const handleInputChange = (e) => {

@@ -11,6 +11,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import MovieCard from "../components/MovieCard";
 import PageContext from "../context/PageContext";
+import Loading from "../components/Loading";
 
 ///////////STYLES//////////////
 
@@ -89,7 +90,7 @@ function FilterPage() {
 
   if (!dataFilter) {
     getData();
-    return <div>Loading...</div>;
+    return <Container style={cardStyle}>{Loading()}</Container>;
   } else {
     return (
       <Container>

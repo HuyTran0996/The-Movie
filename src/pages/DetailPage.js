@@ -11,6 +11,7 @@ import { useParams } from "react-router-dom";
 
 import { IMAGE_PATH } from "../app/config";
 import PageContext from "../context/PageContext";
+import Loading from "../components/Loading";
 
 const cardStyle = {
   display: "flex",
@@ -48,7 +49,7 @@ export default function DetailPage() {
 
   if (!dataDetail) {
     getData();
-    return <div>Loading...</div>;
+    return <Card style={cardStyle}>{Loading()}</Card>;
   } else {
     return (
       <Card variant="standard" style={cardStyle}>
