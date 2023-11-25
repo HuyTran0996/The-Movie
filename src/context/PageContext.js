@@ -24,9 +24,9 @@ const initialState = {
   pageDataSearch: 1,
   pageDataFilter: 1,
   ////////////
-  genre: null,
-  year: null,
-  sort: null,
+  genre: localStorage.getItem("genre"),
+  year: localStorage.getItem("year"),
+  sort: localStorage.getItem("sort"),
   search: localStorage.getItem("search"),
   /////////////
   filterAppBarOpen: false,

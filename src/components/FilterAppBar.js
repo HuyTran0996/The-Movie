@@ -102,6 +102,9 @@ function FilterAppBar() {
     const genre = e.target.genre.value;
     const year = e.target.year.value;
     const sort = e.target.sort.value;
+    localStorage.setItem("genre", genre);
+    localStorage.setItem("year", year);
+    localStorage.setItem("sort", sort);
     dispatch({ type: "SET_GENRE", payload: genre });
     dispatch({ type: "SET_YEAR", payload: year });
     dispatch({ type: "SET_SORT", payload: sort });

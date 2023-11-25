@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { IMAGE_PATH } from "../app/config";
 import PageContext from "../context/PageContext";
 
+//////////////Styles////////////////////
 const cardStyle = {
   display: "flex",
   flexDirection: "column",
@@ -34,7 +35,7 @@ const contentStyle = {
   overflow: "auto",
   maxHeight: "150px",
 };
-
+////////////////////////////
 export default function MovieCard({ movie }) {
   // console.log("path", IMAGE_PATH);
   //tại sao IMAGE_PATH là undefined????
