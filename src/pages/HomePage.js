@@ -1,13 +1,11 @@
-import React, { useContext, useReducer } from "react";
+import React, { useContext } from "react";
 import Grid from "@mui/material/Grid";
-import { Button, Container } from "@mui/material";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import { red } from "@mui/material/colors";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Container } from "@mui/material";
+
+import { useNavigate } from "react-router-dom";
+
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 
 import MovieCard from "../components/MovieCard";
 import PageContext from "../context/PageContext";
@@ -15,280 +13,137 @@ import Loading from "../components/Loading";
 
 ///////////STYLES//////////////
 
-const stackStyle = {
-  marginTop: "5px",
-  // backgroundColor: "blue",
+const loadingStyle = {
   display: "flex",
+  flexDirection: "column",
   alignItems: "center",
+  width: "70vw",
+  marginTop: "20vh",
 };
 
 const cardStyle = {
-  display: "flex",
-  flexDirection: "column",
-  // justifyContent: "center",
-  alignItems: "center",
-  // backgroundColor: "#1565c0",
-  width: "70vw",
-  marginTop: "6px",
+  marginBottom: "50px",
 };
 const gridStyle = {
   display: "flex",
   flexWrap: "wrap",
   justifyContent: "space-evenly",
-  // alignItems: "center",
   marginTop: "6px",
 };
 
-const apiStyle = {
-  cursor: "pointer",
+const responsive = {
+  superLargeDesktop: {
+    // the naming can be any, depends on you.
+    breakpoint: { max: 4000, min: 3000 },
+    items: 7,
+  },
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 5,
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 3,
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 2,
+  },
 };
 ///////////////////
 
-const initialState = {
-  pagePopular: 1,
-  pageUpComing: 1,
-  pageTopRated: 1,
-};
-
-function reducer(stateHomePage, action) {
-  switch (action.type) {
-    case "SET_PAGE_PopularMovie":
-      return { ...stateHomePage, pagePopular: action.payload };
-    case "SET_PAGE_UpComing":
-      return { ...stateHomePage, pageUpComing: action.payload };
-    case "SET_PAGE_TopRated":
-      return { ...stateHomePage, pageTopRated: action.payload };
-
-    default:
-      throw new Error("Invalid Action");
-  }
-}
-
 function HomePage() {
-  const [stateHomePage, dispatchHomePage] = useReducer(reducer, initialState);
-
   const { state, getData, dispatch } = useContext(PageContext);
-  const {
-    dataPopularMovie,
-    dataUpComing,
-    dataTopRated,
-    pageDataPopularMovie,
-    pageDataUpComing,
-    pageDataTopRated,
-  } = state;
+  const { dataPopularMovie, dataUpComing, dataTopRated } = state;
+  const navigate = useNavigate();
 
-  const { pagePopular, pageUpComing, pageTopRated } = stateHomePage;
+  const moveToPopularMovie = () => {
+    navigate(`/popular?page=1`);
+  };
+  const moveToUpComing = () => {
+    navigate(`/coming?page=1`);
+  };
+  const moveToTopRated = () => {
+    navigate(`/top?page=1`);
+  };
 
-  console.log("dataHome:", dataPopularMovie);
-
-  const handleChangePopularMovie = (e, p) => {
-    dispatchHomePage({ type: "SET_PAGE_PopularMovie", payload: p });
-  };
-  const handleChangeUpComing = (e, p) => {
-    dispatchHomePage({ type: "SET_PAGE_UpComing", payload: p });
-  };
-  const handleChangeTopRated = (e, p) => {
-    dispatchHomePage({ type: "SET_PAGE_TopRated", payload: p });
-  };
-  /////////////// PopularMovie/////////////////
-  const handlePrevDataPopularMovie = () => {
-    if (pageDataPopularMovie > 1) {
-      dispatch({
-        type: "SET_PAGE_DATA_PopularMovie",
-        payload: pageDataPopularMovie - 1,
-      });
-    }
-  };
-  const handleNextDataPopularMovie = () => {
-    dispatch({
-      type: "SET_PAGE_DATA_PopularMovie",
-      payload: pageDataPopularMovie + 1,
-    });
-  };
-  ///////////////////////////////////////////////
-  /////////////// Up Coming/////////////////
-  const handlePrevDataUpComing = () => {
-    if (pageDataUpComing > 1) {
-      dispatch({
-        type: "SET_PAGE_DATA_UpComing",
-        payload: pageDataUpComing - 1,
-      });
-    }
-  };
-  const handleNextDataUpComing = () => {
-    dispatch({
-      type: "SET_PAGE_DATA_UpComing",
-      payload: pageDataUpComing + 1,
-    });
-  };
-  ///////////////////////////////////////////////
-  ///////////////////Top Rated/////////////////
-  const handlePrevDataTopRated = () => {
-    if (pageDataTopRated > 1) {
-      dispatch({
-        type: "SET_PAGE_DATA_TopRated",
-        payload: pageDataTopRated - 1,
-      });
-    }
-  };
-  const handleNextDataTopRated = () => {
-    dispatch({
-      type: "SET_PAGE_DATA_TopRated",
-      payload: pageDataTopRated + 1,
-    });
-  };
   /////////////////////////////////////////////
 
   if (!dataPopularMovie || !dataUpComing || !dataTopRated) {
     getData();
-    return <Container style={cardStyle}>{Loading()}</Container>;
+    return <Container style={loadingStyle}>{Loading()}</Container>;
   } else {
+    let dataPopularMovie1 = dataPopularMovie.results;
+    let dataUpComing1 = dataUpComing.results;
+    let dataTopRated1 = dataTopRated.results;
     return (
       <Container>
         {/* /////////// Popular Movie/////////////// */}
         <Container style={cardStyle}>
-          <Typography variant="h5" component="div">
+          <div onClick={moveToPopularMovie} className="movieStyle">
             Popular Movie
-          </Typography>
-
-          <Grid style={gridStyle}>
-            {dataPopularMovie
-              ?.slice((pagePopular - 1) * 5, (pagePopular - 1) * 5 + 5)
-              .map((movie) => {
-                return (
-                  <Grid key={movie.id} item xs={12} lg={4}>
-                    <MovieCard movie={movie} />
-                  </Grid>
-                );
-              })}
-          </Grid>
-
-          <Grid style={stackStyle}>
-            <SkipPreviousIcon
-              style={apiStyle}
-              onClick={handlePrevDataPopularMovie}
-              sx={{
-                "&:hover": {
-                  backgroundColor: red[100],
-                  transition: "0.3s",
-                },
-              }}
-            />
-            <Pagination
-              count={Math.ceil(dataPopularMovie.length / 5)}
-              color="primary"
-              onChange={handleChangePopularMovie}
-              page={pagePopular}
-            />
-            <SkipNextIcon
-              style={apiStyle}
-              onClick={handleNextDataPopularMovie}
-              sx={{
-                "&:hover": {
-                  backgroundColor: red[100],
-                  transition: "0.3s",
-                },
-              }}
-            />
-          </Grid>
+          </div>
+          <Carousel
+            className="carousel"
+            responsive={responsive}
+            transitionDuration={300}
+            infinite={true}
+            ssr={true}
+          >
+            {dataPopularMovie1?.map((movie) => {
+              return (
+                <Grid style={gridStyle} key={movie.id} item xs={12} lg={4}>
+                  <MovieCard movie={movie} />
+                </Grid>
+              );
+            })}
+          </Carousel>
         </Container>
 
         {/*/////////////// UpComing///////////////// */}
         <Container style={cardStyle}>
-          <Typography variant="h5" component="div">
+          <div className="movieStyle" onClick={moveToUpComing}>
             Up Coming
-          </Typography>
+          </div>
 
-          <Grid style={gridStyle}>
-            {dataUpComing
-              ?.slice((pageUpComing - 1) * 5, (pageUpComing - 1) * 5 + 5)
-              .map((movie) => {
-                return (
-                  <Grid key={movie.id} item xs={12} lg={4}>
-                    <MovieCard movie={movie} />
-                  </Grid>
-                );
-              })}
-          </Grid>
-
-          <Grid style={stackStyle}>
-            <SkipPreviousIcon
-              style={apiStyle}
-              onClick={handlePrevDataUpComing}
-              sx={{
-                "&:hover": {
-                  backgroundColor: red[100],
-                  transition: "0.3s",
-                },
-              }}
-            />
-            <Pagination
-              count={Math.ceil(dataUpComing.length / 5)}
-              color="primary"
-              onChange={handleChangeUpComing}
-              page={pageUpComing}
-            />
-            <SkipNextIcon
-              style={apiStyle}
-              onClick={handleNextDataUpComing}
-              sx={{
-                "&:hover": {
-                  backgroundColor: red[100],
-                  transition: "0.3s",
-                },
-              }}
-            />
-          </Grid>
+          <Carousel
+            className="carousel"
+            responsive={responsive}
+            transitionDuration={300}
+            infinite={true}
+            ssr={true}
+          >
+            {dataUpComing1?.map((movie) => {
+              return (
+                <Grid style={gridStyle} key={movie.id} item xs={12} lg={4}>
+                  <MovieCard movie={movie} />
+                </Grid>
+              );
+            })}
+          </Carousel>
         </Container>
 
         {/*/////////////// Top Rated///////////////// */}
         <Container style={cardStyle}>
-          <Typography variant="h5" component="div">
+          <div className="movieStyle" onClick={moveToTopRated}>
             Top Rated
-          </Typography>
+          </div>
 
-          <Grid style={gridStyle}>
-            {dataTopRated
-              ?.slice((pageTopRated - 1) * 5, (pageTopRated - 1) * 5 + 5)
-              .map((movie) => {
-                return (
-                  <Grid key={movie.id} item xs={12} lg={4}>
-                    <MovieCard movie={movie} />
-                  </Grid>
-                );
-              })}
-          </Grid>
-
-          <Grid style={stackStyle}>
-            <SkipPreviousIcon
-              style={apiStyle}
-              onClick={handlePrevDataTopRated}
-              sx={{
-                "&:hover": {
-                  backgroundColor: red[100],
-                  transition: "0.3s",
-                },
-              }}
-            />
-
-            <Pagination
-              count={Math.ceil(dataTopRated.length / 5)}
-              color="primary"
-              onChange={handleChangeTopRated}
-              page={pageTopRated}
-            />
-
-            <SkipNextIcon
-              style={apiStyle}
-              onClick={handleNextDataTopRated}
-              sx={{
-                "&:hover": {
-                  backgroundColor: red[100],
-                  transition: "0.3s",
-                },
-              }}
-            />
-          </Grid>
+          <Carousel
+            className="carousel"
+            responsive={responsive}
+            transitionDuration={300}
+            infinite={true}
+            ssr={true}
+          >
+            {dataTopRated1?.map((movie) => {
+              return (
+                <Grid style={gridStyle} key={movie.id} item xs={12} lg={4}>
+                  <MovieCard movie={movie} />
+                </Grid>
+              );
+            })}
+          </Carousel>
         </Container>
       </Container>
     );

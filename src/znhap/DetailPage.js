@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { red } from "@mui/material/colors";
+import { useParams } from "react-router-dom";
 
 import { IMAGE_PATH } from "../app/config";
 import PageContext from "../context/PageContext";
@@ -19,8 +20,8 @@ const cardStyle = {
   justifyContent: "space-between",
   alignItems: "center",
   width: "100vw",
+  margin: "6px",
   backgroundColor: "transparent",
-  marginTop: "10px",
 };
 const cardActionStyle = {
   // display: "flex",
@@ -28,58 +29,30 @@ const cardActionStyle = {
 };
 
 const imgStyle = {
-  maxWidth: "50vw",
-  maxHeight: "45vh",
+  // objectFit: "contain",
+  maxWidth: "60vw",
+  maxHeight: "50vh",
 };
 
 const contentStyle = {
-  // overflow: "auto",
-  maxWidth: "50vw",
-  color: "white",
+  overflow: "auto",
+  maxWidth: "60vw",
 };
 
 export default function DetailPage() {
+  const params = useParams();
+  const Id = params.id;
+  console.log("movie id:", Id);
   const { state, getData, dispatch } = useContext(PageContext);
-  const { dataDetail, favorite } = state;
+  const { dataDetail, movieId } = state;
   let movie = dataDetail;
-
-  const addToCart = () => {
-    let newFavorite = [...favorite];
-    const isMovieAlreadyInCart = newFavorite.find(
-      (existingMovie) => existingMovie.id === movie.id
-    );
-    if (!isMovieAlreadyInCart) {
-      newFavorite.push(movie);
-    }
-    dispatch({
-      type: "SET_FAVORITE_OVERRIDE",
-      payload: newFavorite,
-    });
-    dispatch({
-      type: "SET_DATA_CART",
-      payload: newFavorite,
-    });
-    localStorage.setItem("favorite", JSON.stringify(newFavorite));
-  };
 
   if (!dataDetail) {
     getData();
     return <Card style={cardStyle}>{Loading()}</Card>;
   } else {
     return (
-      <Card
-        variant="standard"
-        style={cardStyle}
-        sx={
-          {
-            // backgroundImage: `url(${IMAGE_PATH}${movie.poster_path})`,
-            // backgroundSize: "cover",
-            // backgroundFilter: "brightness(200%)",
-            // backgroundRepeat: "no-repeat",
-            // backgroundPosition: "center",
-          }
-        }
-      >
+      <Card variant="standard" style={cardStyle}>
         <CardMedia
           style={imgStyle}
           component="img"
@@ -88,32 +61,30 @@ export default function DetailPage() {
         />
 
         <CardContent style={contentStyle}>
-          <Typography gutterBottom variant="h4" component="div">
+          <Typography gutterBottom variant="h5" component="div">
             {movie.title}
           </Typography>
-
-          <Typography gutterBottom component="div">
+          <Typography gutterBottom variant="h7" component="div">
             {movie.overview}
           </Typography>
 
-          <Typography variant="body2">
+          <Typography variant="body2" color="text.secondary">
             Rate: {movie.vote_average} points ({movie.vote_count} votes)
           </Typography>
 
-          <Typography variant="body2">Views : {movie.popularity}</Typography>
-
-          <Typography variant="body2">
+          <Typography variant="body2" color="text.secondary">
+            Views : {movie.popularity}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
             Release date: {movie.release_date}
           </Typography>
-
-          <Typography variant="body2">
+          <Typography variant="body2" color="text.secondary">
             Languages:{" "}
             {movie.spoken_languages.map(
               (language) => `${language.english_name}, `
             )}
           </Typography>
-
-          <Typography variant="body2">
+          <Typography variant="body2" color="text.secondary">
             Genres : {movie.genres.map((genre) => `${genre.name}, `)}
           </Typography>
 
@@ -125,7 +96,6 @@ export default function DetailPage() {
                   transition: "0.3s",
                 },
               }}
-              onClick={addToCart}
             >
               <ShoppingCartIcon />
             </Button>

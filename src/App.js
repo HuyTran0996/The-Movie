@@ -1,16 +1,20 @@
 import React, { useContext } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Button, Container } from "@mui/material";
+import { Container } from "@mui/material";
 
-import SearchAppBar from "./components/SearchAppBar";
 import "./App.css";
 import HomePage from "./pages/HomePage";
 import FilterPage from "./pages/FilterPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import SearchPage from "./pages/SearchPage";
 import DetailPage from "./pages/DetailPage";
+import PopularMovie from "./pages/PopularMovie";
+import CartPage from "./pages/CartPage";
+import UpComing from "./pages/UpComing";
 import FilterAppBar from "./components/FilterAppBar";
+import SearchAppBar from "./components/SearchAppBar";
 import PageContext from "./context/PageContext";
+import TopRated from "./pages/TopRated";
 
 const cardStyle = {
   display: "flex",
@@ -31,6 +35,10 @@ function App() {
             <Route path="/filter" element={<FilterPage />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/detail/:id" element={<DetailPage />} />
+            <Route path="/popular" element={<PopularMovie />} />
+            <Route path="/top" element={<TopRated />} />
+            <Route path="/coming" element={<UpComing />} />
+            <Route path="/cart" element={<CartPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

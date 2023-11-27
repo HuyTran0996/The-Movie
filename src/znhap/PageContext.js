@@ -17,7 +17,7 @@ const initialState = {
   dataSearch: null,
   dataFilter: null,
   dataDetail: null,
-  dataCart: [],
+  dataCart: null,
   ////////////////
   pageDataPopularMovie: 1,
   pageDataUpComing: 1,
@@ -32,7 +32,10 @@ const initialState = {
   /////////////
   filterAppBarOpen: false,
   movieId: localStorage.getItem("movieId"),
-  favorite: [],
+  favorite: localStorage.getItem("favorites"),
+  // favorite: localStorage.getItem("favorites")
+  //   ? JSON.parse(localStorage.getItem("favorites"))
+  //   : [],
 };
 
 function reducer(state, action) {
@@ -50,7 +53,6 @@ function reducer(state, action) {
       return { ...state, dataFilter: action.payload };
     case "SET_DATA_DETAIL":
       return { ...state, dataDetail: action.payload };
-
     case "SET_DATA_CART":
       return { ...state, dataCart: action.payload };
     //////////////////PAGE of DATA////////////
@@ -78,8 +80,13 @@ function reducer(state, action) {
       return { ...state, filterAppBarOpen: action.payload };
     case "SET_MOVIE_ID":
       return { ...state, movieId: action.payload };
-    case "SET_FAVORITE_OVERRIDE":
-      return { ...state, favorite: action.payload };
+    case "SET_FAVORITE":
+      return { ...state, favorite: localStorage.getItem("favorites") };
+    // case "SET_FAVORITE":
+    //   return {
+    //     ...state,
+    //     favorite: action.payload ? JSON.parse(action.payload) : [],
+    //   };
 
     default:
       throw new Error("Invalid Action");
@@ -110,6 +117,13 @@ function PageProvider({ children }) {
     movieId,
     favorite,
   } = state;
+  let arrOfCart = [];
+  useEffect(() => {
+    arrOfCart = JSON.parse(favorite);
+    console.log(typeof arrOfCart);
+
+    // arrOfCart = Array.from(favorite.split(","));
+  }, [favorite]);
 
   const currentUrl = typeof window !== "undefined" ? window.location.href : "";
   console.log("current Url:", currentUrl);
@@ -130,6 +144,14 @@ function PageProvider({ children }) {
         const result = await FetchDetail(movieId);
         dispatch({ type: "SET_DATA_DETAIL", payload: result });
         console.log("dataNeeded FetchDetail", result);
+        //////////
+      } else if (currentUrl.includes("cart")) {
+        arrOfCart.map(async (movieId) => {
+          const result = await FetchDetail(movieId);
+          dispatch({ type: "SET_DATA_CART", payload: result });
+          console.log("dataNeeded FetchCart", result);
+        });
+
         //////////
       } else {
         const resultPopularMovie = await FetchPopularMovie(
@@ -158,18 +180,6 @@ function PageProvider({ children }) {
       console.log(`Error Home: ${err.name}: ${err.message}`);
     }
   };
-
-  useEffect(() => {
-    const movieInStoreAge = JSON.parse(localStorage.getItem("favorite"));
-    dispatch({
-      type: "SET_DATA_CART",
-      payload: movieInStoreAge,
-    });
-    dispatch({
-      type: "SET_FAVORITE_OVERRIDE",
-      payload: movieInStoreAge,
-    });
-  }, []);
 
   useEffect(() => {
     getData();

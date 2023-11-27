@@ -7,7 +7,7 @@ const FetchPopularMovie = async (pageDataPopularMovie) => {
       `/movie/popular?${API_KEY}&language=en-US&page=${pageDataPopularMovie}`
     );
 
-    let dataNeeded = data.data.results;
+    let dataNeeded = data.data;
     return dataNeeded;
   } catch (err) {
     console.log(`Error FetchPopularMovie: ${err.name}: ${err.message}`);
@@ -19,7 +19,7 @@ const FetchUpComing = async (pageDataUpComing) => {
       `/movie/upcoming?${API_KEY}&language=en-US&page=${pageDataUpComing}`
     );
 
-    let dataNeeded = data.data.results;
+    let dataNeeded = data.data;
     return dataNeeded;
   } catch (err) {
     console.log(`Error FetchUpComing: ${err.name}: ${err.message}`);
@@ -32,7 +32,7 @@ const FetchTopRated = async (pageDataTopRated) => {
       `/movie/top_rated?${API_KEY}&language=en-US&page=${pageDataTopRated}`
     );
 
-    let dataNeeded = data.data.results;
+    let dataNeeded = data.data;
     return dataNeeded;
   } catch (err) {
     console.log(`Error FetchTopRated: ${err.name}: ${err.message}`);
@@ -66,7 +66,7 @@ const FetchFilter = async (genre, year, sort, pageDataFilter) => {
 const FetchDetail = async (movieId) => {
   try {
     const data = await apiService.get(`/movie/${movieId}?${API_KEY}`);
-    let dataNeeded = data.data;
+    let dataNeeded = data.data; ///chổ này không được .results////
     return dataNeeded;
   } catch (err) {
     console.log(`Error FetchDetail: ${err.name}: ${err.message}`);

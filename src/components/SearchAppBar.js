@@ -12,12 +12,12 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import HomeIcon from "@mui/icons-material/Home";
 import ClearIcon from "@mui/icons-material/Clear";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Button } from "@mui/material";
+import { blue } from "@mui/material/colors";
 
 import { useNavigate } from "react-router-dom";
 
@@ -79,7 +79,7 @@ export default function PrimarySearchAppBar() {
   const navigate = useNavigate();
 
   const { state, dispatch, getData } = useContext(PageContext);
-  const { search, filterAppBarOpen } = state;
+  const { search, filterAppBarOpen, dataCart } = state;
 
   const handleInputChange = (e) => {
     dispatch({ type: "SET_SEARCH", payload: e.target.value });
@@ -101,6 +101,10 @@ export default function PrimarySearchAppBar() {
   };
   const handleFilterAppBarOpen = () => {
     dispatch({ type: "SET_FILTER_APP_BAR", payload: !filterAppBarOpen });
+  };
+
+  const moveToCart = () => {
+    navigate(`/cart`);
   };
   //////////////////////////////////////////////////////////
   const handleMobileMenuClose = () => {
@@ -155,26 +159,20 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
+      <MenuItem onClick={moveToCart}>
         <IconButton
           size="large"
           aria-label="show 17 new notifications"
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
+          {/* ///////////////CART//////////// */}
+          <Badge badgeContent={dataCart ? dataCart.length : 0} color="error">
+            <ShoppingCartIcon />
           </Badge>
         </IconButton>
-        <p>Notifications</p>
+        <p>Cart</p>
       </MenuItem>
+
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
@@ -199,15 +197,21 @@ export default function PrimarySearchAppBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ backgroundColor: "#171d25" }}>
         <Toolbar>
           <IconButton
             size="large"
             edge="start"
             color="inherit"
             aria-label="open drawer"
-            sx={{ mr: 2 }}
             onClick={handleFilterAppBarOpen}
+            sx={{
+              mr: 2,
+              "&:hover": {
+                backgroundColor: blue[400],
+                transition: "0.3s",
+              },
+            }}
           >
             <MenuIcon />
           </IconButton>
@@ -218,6 +222,12 @@ export default function PrimarySearchAppBar() {
             color="inherit"
             aria-label="open drawer"
             onClick={handleClick}
+            sx={{
+              "&:hover": {
+                backgroundColor: blue[400],
+                transition: "0.3s",
+              },
+            }}
           >
             <HomeIcon />
           </IconButton>
@@ -233,7 +243,16 @@ export default function PrimarySearchAppBar() {
                 value={search}
                 onChange={handleInputChange}
               />
-              <Button onClick={handleRemoveInputValue}>
+
+              <Button
+                onClick={handleRemoveInputValue}
+                sx={{
+                  "&:hover": {
+                    backgroundColor: blue[400],
+                    transition: "0.3s",
+                  },
+                }}
+              >
                 <ClearIcon />
               </Button>
             </Search>
@@ -243,20 +262,16 @@ export default function PrimarySearchAppBar() {
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
               size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
-            >
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
               aria-label="show 17 new notifications"
               color="inherit"
             >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
+              {/* /////////////////Cart/////////// */}
+              <Badge
+                badgeContent={dataCart ? dataCart.length : 0}
+                color="error"
+                onClick={moveToCart}
+              >
+                <ShoppingCartIcon />
               </Badge>
             </IconButton>
             <IconButton
@@ -267,6 +282,12 @@ export default function PrimarySearchAppBar() {
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
               color="inherit"
+              sx={{
+                "&:hover": {
+                  backgroundColor: blue[400],
+                  transition: "0.3s",
+                },
+              }}
             >
               <AccountCircle />
             </IconButton>
@@ -279,6 +300,12 @@ export default function PrimarySearchAppBar() {
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
               color="inherit"
+              sx={{
+                "&:hover": {
+                  backgroundColor: blue[400],
+                  transition: "0.3s",
+                },
+              }}
             >
               <MoreIcon />
             </IconButton>

@@ -5,9 +5,8 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import { red } from "@mui/material/colors";
-
 import { useNavigate } from "react-router-dom";
 
 import { IMAGE_PATH } from "../app/config";
@@ -34,9 +33,10 @@ const contentStyle = {
 };
 ////////////////////////////
 
-export default function MovieCard({ movie }) {
+export default function Cart({ movie }) {
   const { state, dispatch } = useContext(PageContext);
-  const { favorite } = state;
+  const { dataCart } = state;
+
   const navigate = useNavigate();
 
   const handleSeeDetail = () => {
@@ -52,23 +52,14 @@ export default function MovieCard({ movie }) {
     navigate(`/detail/${movie.id}`);
   };
 
-  const addToCart = () => {
-    let newFavorite = [...favorite];
-    const isMovieAlreadyInCart = newFavorite.find(
-      (existingMovie) => existingMovie.id === movie.id
-    );
-    if (!isMovieAlreadyInCart) {
-      newFavorite.push(movie);
-    }
-    dispatch({
-      type: "SET_FAVORITE_OVERRIDE",
-      payload: newFavorite,
-    });
+  const removeToCart = () => {
+    let remove = dataCart.filter((cart) => cart.id !== movie.id);
+
     dispatch({
       type: "SET_DATA_CART",
-      payload: newFavorite,
+      payload: remove,
     });
-    localStorage.setItem("favorite", JSON.stringify(newFavorite));
+    localStorage.setItem("favorite", JSON.stringify(remove));
   };
 
   return (
@@ -113,6 +104,7 @@ export default function MovieCard({ movie }) {
         >
           Detail
         </Button>
+
         <Button
           sx={{
             "&:hover": {
@@ -120,9 +112,9 @@ export default function MovieCard({ movie }) {
               transition: "0.3s",
             },
           }}
-          onClick={addToCart}
+          onClick={removeToCart}
         >
-          <ShoppingCartIcon />
+          <RemoveShoppingCartIcon />
         </Button>
       </CardActions>
     </Card>
