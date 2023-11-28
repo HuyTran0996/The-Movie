@@ -110,6 +110,16 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
+  const handleLogin = () => {
+    setMobileMoreAnchorEl(null);
+    navigate(`/signIn`);
+  };
+  const handleLogout = () => {
+    setMobileMoreAnchorEl(null);
+    localStorage.removeItem("token");
+    localStorage.removeItem("search");
+    navigate(`/signIn`);
+  };
 
   const handleMenuClose = () => {
     setAnchorEl(null);
@@ -137,8 +147,8 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Login</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+      <MenuItem onClick={handleLogin}>Login</MenuItem>
+      <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   );
 

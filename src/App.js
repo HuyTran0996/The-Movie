@@ -15,6 +15,8 @@ import FilterAppBar from "./components/FilterAppBar";
 import SearchAppBar from "./components/SearchAppBar";
 import PageContext from "./context/PageContext";
 import TopRated from "./pages/TopRated";
+import SingIn from "./components/SignIn";
+import PrivateRoutes from "./components/PrivateRoutes";
 
 const cardStyle = {
   display: "flex",
@@ -30,7 +32,7 @@ function App() {
       <Container maxWidth={false} style={cardStyle}>
         {filterAppBarOpen ? <FilterAppBar /> : null}
         <Routes>
-          <Route>
+          <Route element={<PrivateRoutes />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/filter" element={<FilterPage />} />
             <Route path="/search" element={<SearchPage />} />
@@ -41,6 +43,7 @@ function App() {
             <Route path="/cart" element={<CartPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
+          <Route path="/signIn" element={<SingIn />} />
         </Routes>
       </Container>
     </div>
