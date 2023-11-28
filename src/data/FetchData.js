@@ -56,7 +56,7 @@ const FetchFilter = async (genre, year, sort, pageDataFilter) => {
     const data = await apiService.get(
       `/discover/movie?${API_KEY}&language=en-US&page=${pageDataFilter}&primary_release_year=${year}&sort_by=${sort}&with_genres=${genre}`
     );
-    let dataNeeded = data.data.results;
+    let dataNeeded = data.data;
     return dataNeeded;
   } catch (err) {
     console.log(`Error FetchFilter: ${err.name}: ${err.message}`);

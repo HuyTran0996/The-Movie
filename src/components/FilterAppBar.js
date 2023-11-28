@@ -109,7 +109,7 @@ function FilterAppBar() {
     dispatch({ type: "SET_YEAR", payload: year });
     dispatch({ type: "SET_SORT", payload: sort });
     dispatch({ type: "SET_DATA_FILTER", payload: null });
-    navigate(`/filter?genre=${genre}&year=${year}&sort=${sort}`);
+    navigate(`/filter?genre=${genre}&year=${year}&sort=${sort}&page=1`);
   };
   return (
     <div className="FilterAppBar">

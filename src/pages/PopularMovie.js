@@ -44,10 +44,6 @@ const movieStyle = {
   // alignItems: "center",
 };
 
-const apiStyle = {
-  cursor: "pointer",
-};
-
 ///////////////////
 
 function PopularMovie() {

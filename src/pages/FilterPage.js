@@ -1,12 +1,11 @@
-import React, { useContext, useReducer } from "react";
+import React, { useContext, useEffect } from "react";
+
 import Grid from "@mui/material/Grid";
-import { Button, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import { red } from "@mui/material/colors";
+
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import MovieCard from "../components/MovieCard";
@@ -16,125 +15,92 @@ import Loading from "../components/Loading";
 ///////////STYLES//////////////
 
 const stackStyle = {
-  marginTop: "5px",
-  // backgroundColor: "blue",
+  marginTop: "15px",
+  marginBottom: "25px",
   display: "flex",
   alignItems: "center",
+  // backgroundColor: "blue",
 };
 
 const cardStyle = {
   display: "flex",
   flexDirection: "column",
-  // justifyContent: "center",
   alignItems: "center",
-  // backgroundColor: "#1565c0",
-  width: "70vw",
+  width: "90vw",
   marginTop: "6px",
+  // justifyContent: "center",
+  // backgroundColor: "#1565c0",
 };
 const gridStyle = {
   display: "flex",
   flexWrap: "wrap",
   justifyContent: "space-evenly",
-  // alignItems: "center",
   marginTop: "6px",
+  // alignItems: "center",
 };
-const apiStyle = {
-  cursor: "pointer",
+const movieStyle = {
+  display: "flex",
+  flexWrap: "wrap",
+  justifyContent: "space-evenly",
+  margin: "10px",
+  // alignItems: "center",
 };
 ///////////////////
 
-const initialState = {
-  pageSearch: 1,
-};
-
-function reducer(stateHomePage, action) {
-  switch (action.type) {
-    case "SET_PAGE_Search":
-      return { ...stateHomePage, pageSearch: action.payload };
-
-    default:
-      throw new Error("Invalid Action");
-  }
-}
-
 function FilterPage() {
-  const [stateHomePage, dispatchHomePage] = useReducer(reducer, initialState);
-
   const { state, dispatch, getData } = useContext(PageContext);
-  const { pageDataFilter, dataFilter } = state;
+  const { dataFilter } = state;
+  const navigate = useNavigate();
+  let [searchParams] = useSearchParams();
+  let page = parseInt(searchParams.get("page")) || 1;
 
-  const { pageSearch } = stateHomePage;
+  useEffect(() => {
+    dispatch({ type: "SET_PAGE_DATA_Filter", payload: `${page}` });
+  }, [page]);
 
-  console.log("dataSearch:", dataFilter);
+  let genre = localStorage.getItem("genre");
+  let year = localStorage.getItem("year");
+  let sort = localStorage.getItem("sort");
 
-  const handleChangeSearch = (e, p) => {
-    dispatchHomePage({ type: "SET_PAGE_Search", payload: p });
+  console.log("dataFilter:", dataFilter);
+  const handleChangeFilter = (e, p) => {
+    navigate(`/filter?genre=${genre}&year=${year}&sort=${sort}&page=${p}`);
   };
-
-  ////////////////////////////////
-  const handlePrevDataSearch = () => {
-    if (pageDataFilter > 1) {
-      dispatch({
-        type: "SET_PAGE_DATA_Filter",
-        payload: pageDataFilter - 1,
-      });
-    }
-  };
-  const handleNextDataSearch = () => {
-    dispatch({
-      type: "SET_PAGE_DATA_Filter",
-      payload: pageDataFilter + 1,
-    });
-  };
-  ///////////////////////////////////////////////
 
   if (!dataFilter) {
     getData();
     return <Container style={cardStyle}>{Loading()}</Container>;
   } else {
+    let dataFilter1 = dataFilter.results;
     return (
       <Container>
         <Container style={cardStyle}>
-          <Typography variant="h5" component="div">
-            Filter Result
-          </Typography>
+          <div className="movieStyle1">Filter Result</div>
 
           <Grid style={gridStyle}>
-            {dataFilter
-              ?.slice((pageSearch - 1) * 5, (pageSearch - 1) * 5 + 5)
-              .map((movie) => {
-                return (
-                  <Grid key={movie.id} item xs={12} lg={4}>
-                    <MovieCard movie={movie} />
-                  </Grid>
-                );
-              })}
+            {dataFilter1?.map((movie) => {
+              return (
+                <Grid style={movieStyle} key={movie.id} item xs={12} lg={4}>
+                  <MovieCard movie={movie} />
+                </Grid>
+              );
+            })}
           </Grid>
 
           <Grid style={stackStyle}>
-            <SkipPreviousIcon
-              style={apiStyle}
-              onClick={handlePrevDataSearch}
-              sx={{
-                "&:hover": {
-                  backgroundColor: red[100],
-                  transition: "0.3s",
-                },
-              }}
-            />
             <Pagination
-              count={Math.ceil(dataFilter.length / 5)}
+              count={Math.ceil(dataFilter.total_pages)}
               color="primary"
-              onChange={handleChangeSearch}
-              page={pageSearch}
-            />
-            <SkipNextIcon
-              style={apiStyle}
-              onClick={handleNextDataSearch}
+              onChange={handleChangeFilter}
+              page={page}
               sx={{
-                "&:hover": {
-                  backgroundColor: red[100],
+                "& button": {
+                  color: "white",
+                },
+                "& button:hover": {
                   transition: "0.3s",
+                  backgroundColor: red[100],
+                  color: "blue",
                 },
               }}
             />
