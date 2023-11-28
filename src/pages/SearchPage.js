@@ -1,4 +1,4 @@
-import React, { useContext, useReducer } from "react";
+import React, { useContext, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import { Button, Container } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
@@ -16,125 +16,89 @@ import Loading from "../components/Loading";
 ///////////STYLES//////////////
 
 const stackStyle = {
-  marginTop: "5px",
-  // backgroundColor: "blue",
+  marginTop: "15px",
+  marginBottom: "25px",
   display: "flex",
   alignItems: "center",
+  // backgroundColor: "blue",
 };
 
 const cardStyle = {
   display: "flex",
   flexDirection: "column",
-  // justifyContent: "center",
   alignItems: "center",
-  // backgroundColor: "#1565c0",
-  width: "70vw",
+  width: "90vw",
   marginTop: "6px",
+  // justifyContent: "center",
+  // backgroundColor: "#1565c0",
 };
 const gridStyle = {
   display: "flex",
   flexWrap: "wrap",
   justifyContent: "space-evenly",
-  // alignItems: "center",
   marginTop: "6px",
+  // alignItems: "center",
 };
-const apiStyle = {
-  cursor: "pointer",
+const movieStyle = {
+  display: "flex",
+  flexWrap: "wrap",
+  justifyContent: "space-evenly",
+  margin: "10px",
+  // alignItems: "center",
 };
 ///////////////////
 
-const initialState = {
-  pageSearch: 1,
-};
-
-function reducer(stateHomePage, action) {
-  switch (action.type) {
-    case "SET_PAGE_Search":
-      return { ...stateHomePage, pageSearch: action.payload };
-
-    default:
-      throw new Error("Invalid Action");
-  }
-}
-
 function SearchPage() {
-  const [stateHomePage, dispatchHomePage] = useReducer(reducer, initialState);
-
   const { state, dispatch, getData } = useContext(PageContext);
-  const { pageDataSearch, search, dataSearch } = state;
+  const { search, dataSearch } = state;
+  const navigate = useNavigate();
+  let [searchParams] = useSearchParams();
+  let page = parseInt(searchParams.get("page")) || 1;
 
-  const { pageSearch } = stateHomePage;
+  useEffect(() => {
+    dispatch({ type: "SET_PAGE_DATA_Search", payload: `${page}` });
+  }, [page]);
 
   console.log("dataSearch:", dataSearch);
 
   const handleChangeSearch = (e, p) => {
-    dispatchHomePage({ type: "SET_PAGE_Search", payload: p });
+    navigate(`/search?search=${search}&page=${p}`);
   };
-
-  ////////////////////////////////
-  const handlePrevDataSearch = () => {
-    if (pageDataSearch > 1) {
-      dispatch({
-        type: "SET_PAGE_DATA_Search",
-        payload: pageDataSearch - 1,
-      });
-    }
-  };
-  const handleNextDataSearch = () => {
-    dispatch({
-      type: "SET_PAGE_DATA_Search",
-      payload: pageDataSearch + 1,
-    });
-  };
-  ///////////////////////////////////////////////
 
   if (!dataSearch) {
     getData();
     return <Container style={cardStyle}>{Loading()}</Container>;
   } else {
+    let dataSearch1 = dataSearch.results;
     return (
       <Container>
         <Container style={cardStyle}>
-          <Typography variant="h5" component="div">
-            Result of: {search}
-          </Typography>
+          <div className="movieStyle1">Result of: {search}</div>
 
           <Grid style={gridStyle}>
-            {dataSearch
-              ?.slice((pageSearch - 1) * 5, (pageSearch - 1) * 5 + 5)
-              .map((movie) => {
-                return (
-                  <Grid key={movie.id} item xs={12} lg={4}>
-                    <MovieCard movie={movie} />
-                  </Grid>
-                );
-              })}
+            {dataSearch1?.map((movie) => {
+              return (
+                <Grid style={movieStyle} key={movie.id} item xs={12} lg={4}>
+                  <MovieCard movie={movie} />
+                </Grid>
+              );
+            })}
           </Grid>
 
           <Grid style={stackStyle}>
-            <SkipPreviousIcon
-              style={apiStyle}
-              onClick={handlePrevDataSearch}
-              sx={{
-                "&:hover": {
-                  backgroundColor: red[100],
-                  transition: "0.3s",
-                },
-              }}
-            />
             <Pagination
-              count={Math.ceil(dataSearch.length / 5)}
+              count={Math.ceil(dataSearch.total_pages)}
               color="primary"
               onChange={handleChangeSearch}
-              page={pageSearch}
-            />
-            <SkipNextIcon
-              style={apiStyle}
-              onClick={handleNextDataSearch}
+              page={page}
               sx={{
-                "&:hover": {
-                  backgroundColor: red[100],
+                "& button": {
+                  color: "white",
+                },
+                "& button:hover": {
                   transition: "0.3s",
+                  backgroundColor: red[100],
+                  color: "blue",
                 },
               }}
             />

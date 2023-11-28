@@ -45,7 +45,7 @@ const FetchSearch = async (search, pageDataSearch) => {
       `/search/movie?${API_KEY}&page=${pageDataSearch}&query=${search}`
     );
 
-    let dataNeeded = data.data.results;
+    let dataNeeded = data.data;
     return dataNeeded;
   } catch (err) {
     console.log(`Error FetchSearch: ${err.name}: ${err.message}`);

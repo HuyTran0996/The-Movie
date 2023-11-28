@@ -88,7 +88,7 @@ export default function PrimarySearchAppBar() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate(`/search?search=${search}`);
+    navigate(`/search?search=${search}&page=1`);
     dispatch({ type: "SET_DATA_SEARCH", payload: null });
   };
 
