@@ -64,7 +64,8 @@ export default function SingIn() {
     }
   };
 
-  const handleOnClick = async () => {
+  const handleOnClick = async (e) => {
+    e.preventDefault();
     const data = await fetchData();
     localStorage.setItem("token", data);
     navigate("/");
@@ -79,48 +80,49 @@ export default function SingIn() {
 
   return (
     <div style={containerStyle}>
-      <Card style={cardStyle}>
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Email
+      <form onSubmit={handleOnClick}>
+        <Card style={cardStyle}>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              Email
+            </Typography>
+            <InputBase
+              placeholder="your email"
+              style={inputStyle}
+              value={emailValue}
+              onChange={handleEmailChange}
+              autoComplete="off"
+            />
+
+            <Typography gutterBottom variant="h5" component="div">
+              PassWord
+            </Typography>
+            <InputBase
+              placeholder="your password"
+              style={inputStyle}
+              type="password"
+              value={passWordValue}
+              onChange={handlePassWordChange}
+              autoComplete="off"
+            />
+          </CardContent>
+
+          <Typography sx={{ fontWeight: "bold", color: "red" }}>
+            {errorMessage}
           </Typography>
-          <InputBase
-            placeholder="your email"
-            style={inputStyle}
-            value={emailValue}
-            onChange={handleEmailChange}
-            autoComplete="off"
-          />
 
-          <Typography gutterBottom variant="h5" component="div">
-            PassWord
-          </Typography>
-          <InputBase
-            placeholder="your password"
-            style={inputStyle}
-            type="password"
-            value={passWordValue}
-            onChange={handlePassWordChange}
-            autoComplete="off"
-          />
-        </CardContent>
-
-        <Typography sx={{ fontWeight: "bold", color: "red" }}>
-          {errorMessage}
-        </Typography>
-
-        <CardActions>
-          <Button
-            variant="contained"
-            size="small"
-            // disabled={emailValue && passWordValue ? false : true}
-            disabled={isLoading || !(emailValue && passWordValue)}
-            onClick={handleOnClick}
-          >
-            Sign In
-          </Button>
-        </CardActions>
-      </Card>
+          <CardActions>
+            <Button
+              variant="contained"
+              size="small"
+              type="submit"
+              disabled={isLoading || !(emailValue && passWordValue)}
+            >
+              Sign In
+            </Button>
+          </CardActions>
+        </Card>
+      </form>
     </div>
   );
 }
