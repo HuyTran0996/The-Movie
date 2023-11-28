@@ -1,17 +1,9 @@
-import React, { useContext, useReducer, useEffect } from "react";
+import React, { useContext } from "react";
 import Grid from "@mui/material/Grid";
-import { Button, Container } from "@mui/material";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import { red, white } from "@mui/material/colors";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Container } from "@mui/material";
 
 import Cart from "../components/Cart";
 import PageContext from "../context/PageContext";
-import Loading from "../components/Loading";
 
 ///////////STYLES//////////////
 
@@ -42,13 +34,12 @@ const movieStyle = {
 ///////////////////
 
 export default function CartPage() {
-  const { state, getData, dispatch } = useContext(PageContext);
-  const { dataDetail, movieId, dataCart } = state;
-  // let movie = dataCart;
+  const { state } = useContext(PageContext);
+  const { dataCart } = state;
 
-  if (dataCart.length === 0) {
+  if (!dataCart || dataCart.length === 0) {
     return (
-      <Container className="movieStyle" style={cardStyle}>
+      <Container className="movieStyle1" style={cardStyle}>
         YOUR CART IS EMPTY
       </Container>
     );
@@ -56,9 +47,8 @@ export default function CartPage() {
     let dataPopularMovie1 = dataCart;
     return (
       <Container>
-        {/* /////////// Popular Movie/////////////// */}
         <Container style={cardStyle}>
-          <div className="movieStyle">YOUR CART MOVIES</div>
+          <div className="movieStyle1">YOUR CART MOVIES</div>
 
           <Grid style={gridStyle}>
             {dataPopularMovie1?.map((movie) => {

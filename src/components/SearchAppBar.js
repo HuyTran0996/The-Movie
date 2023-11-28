@@ -260,20 +260,27 @@ export default function PrimarySearchAppBar() {
 
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            {/* /////////////////Cart/////////// */}
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
+              onClick={moveToCart}
+              sx={{
+                "&:hover": {
+                  backgroundColor: blue[400],
+                  transition: "0.3s",
+                },
+              }}
             >
-              {/* /////////////////Cart/////////// */}
               <Badge
                 badgeContent={dataCart ? dataCart.length : 0}
                 color="error"
-                onClick={moveToCart}
               >
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>
+
             <IconButton
               size="large"
               edge="end"
