@@ -1,5 +1,5 @@
 import { API_KEY } from "../app/config";
-import apiService from "../app/apiService";
+import { apiService } from "../app/apiService";
 
 const FetchPopularMovie = async (pageDataPopularMovie) => {
   try {
