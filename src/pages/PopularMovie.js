@@ -1,12 +1,9 @@
-import React, { useContext, useReducer, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import Grid from "@mui/material/Grid";
-import { Button, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import { red, white } from "@mui/material/colors";
+
+import { red } from "@mui/material/colors";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import MovieCard from "../components/MovieCard";
@@ -55,8 +52,7 @@ const apiStyle = {
 
 function PopularMovie() {
   const { state, getData, dispatch } = useContext(PageContext);
-  const { dataPopularMovie, dataUpComing, dataTopRated, pageDataPopularMovie } =
-    state;
+  const { dataPopularMovie } = state;
   const navigate = useNavigate();
   let [searchParams] = useSearchParams();
   let page = parseInt(searchParams.get("page")) || 1;

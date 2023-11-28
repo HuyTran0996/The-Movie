@@ -12,7 +12,7 @@ import { apiServiceLogin } from "../app/apiService";
 ///////////////STYLES///////////////////
 const containerStyle = {
   width: "100%",
-  height: "100vh",
+  height: "calc(100vh - 0.5*290px)",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
