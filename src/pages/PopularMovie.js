@@ -78,9 +78,8 @@ function PopularMovie() {
     let dataPopularMovie1 = dataPopularMovie.results;
     return (
       <Container>
-        {/* /////////// Popular Movie/////////////// */}
         <Container style={cardStyle}>
-          <div className="movieStyle">Popular Movie</div>
+          <div className="movieStyle1">Popular Movie</div>
 
           <Grid style={gridStyle}>
             {dataPopularMovie1?.map((movie) => {

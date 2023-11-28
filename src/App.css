@@ -68,6 +68,13 @@ body {
 }
 
 /* //////////////Home Page/////////// */
+.movieStyle1 {
+  padding-top: 10px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 36px;
+  transition: 0.3s;
+}
 .movieStyle {
   padding-top: 10px;
   cursor: pointer;

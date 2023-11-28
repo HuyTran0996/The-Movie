@@ -69,7 +69,7 @@ function TopRated() {
     return (
       <Container>
         <Container style={cardStyle}>
-          <div className="movieStyle">Top Rated</div>
+          <div className="movieStyle1">Top Rated</div>
 
           <Grid style={gridStyle}>
             {dataTopRated1?.map((movie) => {

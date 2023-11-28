@@ -71,7 +71,7 @@ function UpComing() {
     return (
       <Container>
         <Container style={cardStyle}>
-          <div className="movieStyle">Up Coming</div>
+          <div className="movieStyle1">Up Coming</div>
 
           <Grid style={gridStyle}>
             {dataUpComing1?.map((movie) => {
