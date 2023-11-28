@@ -44,7 +44,8 @@ export default function DetailPage() {
   let movie = dataDetail;
 
   const addToCart = () => {
-    let newFavorite = [...favorite];
+    const favoriteList = favorite ? favorite : [];
+    let newFavorite = [...favoriteList];
     const isMovieAlreadyInCart = newFavorite.find(
       (existingMovie) => existingMovie.id === movie.id
     );
